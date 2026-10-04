@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vietnamesischer Nachnamensgenerator · Họ Việt Nam</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Segoe UI', Roboto, system-ui, sans-serif; }
+    body {
+        background:
+            radial-gradient(ellipse at 10% 15%, #0a3d2c 0%, #02120c 55%),
+            radial-gradient(ellipse at 90% 80%, #5a3b00 0%, #02120c 60%),
+            radial-gradient(circle at 50% 50%, #041a10, #000301);
+        background-blend-mode: screen, screen, normal;
+        color: #f0fff5;
+        min-height: 100vh;
+        padding: 2rem 1.4rem 5rem;
+        display: flex; flex-direction: column; align-items: center;
+        position: relative; overflow-x: hidden;
+    }
+    body::before {
+        content: ''; position: fixed; inset: 0;
+        background:
+            repeating-linear-gradient(45deg, transparent 0 22px, #ffd96608 22px 23px),
+            repeating-linear-gradient(-45deg, transparent 0 22px, #7dffa308 22px 23px);
+        pointer-events: none; z-index: 0; opacity: 0.9;
+    }
+    body::after {
+        content: ''; position: fixed; inset: -25%;
+        background: conic-gradient(from 0deg, transparent, #7dffa322, transparent 25%, #ffd96622, transparent 55%);
+        animation: rotateGlow 40s linear infinite; pointer-events: none; z-index: 0; opacity: 0.4;
+    }
+    @keyframes rotateGlow { to { transform: rotate(360deg); } }
+    .app-container { max-width: 1400px; width: 100%; position: relative; z-index: 2; }
+
+    /* HERO */
+    .hero { text-align: center; margin-bottom: 2rem; }
+    .hero h1 {
+        font-size: 3.2rem; font-weight: 800;
+        background: linear-gradient(135deg, #d4ffb0, #7dffa3, #ffd966, #b0ff8a, #7dffa3);
+        background-size: 300% 300%;
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+        letter-spacing: 3px; animation: shimmer 7s ease-in-out infinite;
+        text-shadow: 0 0 60px #7dffa355;
+    }
+    @keyframes shimmer { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+    .hero p {
+        color: #a8d4a0; font-size: 0.95rem; margin-top: 0.5rem;
+        letter-spacing: 4px; text-transform: uppercase; text-shadow: 0 0 12px #7dffa355;
+    }
+
+    /* GENERATOREN */
+    .generator-panel { display: grid; grid-template-columns: 1fr 1.3fr; gap: 1.5rem; margin-bottom: 2rem; }
+    @media (max-width: 750px) { .generator-panel { grid-template-columns: 1fr; } }
+    .gen-box {
+        background: linear-gradient(145deg, #04291dcc, #021a11cc);
+        backdrop-filter: blur(18px);
+        border: 1.5px solid #7dffa340;
+        border-radius: 2rem; padding: 1.6rem 1.8rem;
+        box-shadow: 0 0 40px #7dffa315, 0 25px 40px -12px #000000cc, 0 0 0 1px #7dffa320 inset;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .gen-box:hover { border-color: #7dffa399; box-shadow: 0 0 60px #7dffa330, 0 25px 40px -12px #000, 0 0 0 1px #7dffa340 inset; }
+    .gen-box h2 {
+        font-size: 1.05rem; font-weight: 600; color: #d4ffb0;
+        display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.1rem;
+        letter-spacing: 1px; text-transform: uppercase; text-shadow: 0 0 15px #7dffa380;
+    }
+    .gen-box h2 span { font-size: 1.5rem; }
+    .single-row, .bulk-row { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; }
+    .input-neon {
+        background: #02170f; border: 1.5px solid #2c6b4a; color: #d4ffb0;
+        font-weight: 700; font-size: 1.1rem; padding: 0.7rem 1.1rem;
+        border-radius: 2.5rem; outline: none; width: 190px; text-align: right;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        font-family: 'JetBrains Mono', monospace;
+    }
+    .input-neon::placeholder { color: #2c6b4a; font-weight: 400; }
+    .input-neon:focus { border-color: #7dffa3; box-shadow: 0 0 20px #7dffa360; }
+    .btn {
+        background: linear-gradient(145deg, #0f3d1e, #062612);
+        border: 1.5px solid #7dffa370; padding: 0.75rem 1.6rem;
+        border-radius: 3rem; font-weight: 700; font-size: 1rem; color: #d4ffb0;
+        cursor: pointer; box-shadow: 0 0 25px #7dffa320, 0 10px 20px -6px #000;
+        transition: all 0.2s; letter-spacing: 1px;
+        display: flex; align-items: center; gap: 0.5rem; white-space: nowrap;
+    }
+    .btn:hover {
+        background: linear-gradient(145deg, #1a5c2e, #0d3d1c);
+        box-shadow: 0 0 40px #7dffa360, 0 12px 24px -6px #000;
+        color: #f0ffdb; border-color: #a6ffc0; transform: translateY(-2px) scale(1.02);
+    }
+    .btn:active { transform: scale(0.97); }
+    .hint { font-size: 0.72rem; color: #6b9e7c; letter-spacing: 0.5px; margin-top: 0.6rem; padding-left: 0.4rem; }
+
+    /* ZULETZT GENERIERT */
+    .last-section {
+        background: linear-gradient(145deg, #041a12ee, #0a1a10ee);
+        backdrop-filter: blur(20px);
+        border-radius: 2.5rem; padding: 1.8rem 2rem; margin: 0 0 2rem;
+        border: 1.5px solid #7dffa350;
+        box-shadow: 0 0 60px #7dffa325, 0 25px 50px -15px #000;
+        position: relative; overflow: hidden;
+    }
+    .last-section::before {
+        content: ''; position: absolute; inset: -50%;
+        background: conic-gradient(from 0deg, transparent, #7dffa320, transparent 30%, #ffd96615, transparent 60%);
+        animation: rotateGlow 25s linear infinite; pointer-events: none;
+    }
+    .last-section > * { position: relative; z-index: 2; }
+
+    .last-header {
+        display: flex; align-items: center; justify-content: space-between;
+        flex-wrap: wrap; gap: 1rem; margin-bottom: 1.4rem;
+    }
+    .last-header .last-title {
+        font-size: 0.8rem; text-transform: uppercase; letter-spacing: 6px;
+        color: #7dffa3cc; text-shadow: 0 0 20px #7dffa380;
+    }
+
+    .last-names {
+        display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 1rem;
+        margin-bottom: 1.4rem;
+    }
+    @media (max-width: 720px) { .last-names { grid-template-columns: 1fr; } }
+    .last-name-card {
+        background: linear-gradient(145deg, #062a1c, #041a12);
+        border: 1.5px solid #2c6b4a;
+        border-radius: 1.5rem;
+        padding: 1.2rem 1rem;
+        text-align: center;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        gap: 0.3rem;
+        min-height: 130px;
+        transition: border-color 0.3s, transform 0.2s;
+    }
+    .last-name-card:hover { border-color: #7dffa380; transform: translateY(-2px); }
+    .last-name-card .ln-label {
+        font-size: 0.62rem; text-transform: uppercase; letter-spacing: 2px;
+        color: #7ea88e;
+    }
+    .last-name-card .ln-value {
+        font-weight: 800; line-height: 1.15;
+        word-break: break-word;
+    }
+    .last-name-card.primary .ln-value {
+        font-size: 2.6rem;
+        background: linear-gradient(135deg, #eaffd8, #a6ffc0, #ffd966, #ffffff, #7dffa3);
+        background-size: 300% 300%;
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+        text-shadow: 0 0 30px #7dffa3aa;
+        letter-spacing: 2px;
+        animation: shimmer 5s ease-in-out infinite;
+    }
+    .last-name-card.chuhan .ln-value {
+        font-size: 2.2rem; color: #ffd966;
+        text-shadow: 0 0 20px #ffd96680; letter-spacing: 4px;
+    }
+    .last-name-card.pinyin .ln-value {
+        font-size: 1.5rem; color: #b8d0ff; font-style: italic;
+        text-shadow: 0 0 15px #7a9dff80; letter-spacing: 2px;
+    }
+
+    .last-stats {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0.8rem;
+    }
+    @media (max-width: 1050px) { .last-stats { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 620px) { .last-stats { grid-template-columns: repeat(2, 1fr); } }
+    .last-stat {
+        background: #041a12cc;
+        border: 1px solid #1e4d36;
+        border-radius: 1rem;
+        padding: 0.8rem 0.9rem;
+        display: flex; flex-direction: column; gap: 0.2rem;
+        transition: border-color 0.3s;
+    }
+    .last-stat:hover { border-color: #7dffa380; }
+    .last-stat .ls-label {
+        font-size: 0.6rem; color: #7ea88e;
+        text-transform: uppercase; letter-spacing: 1.2px;
+    }
+    .last-stat .ls-value {
+        font-size: 1.15rem; font-weight: 700; color: #d4ffb0;
+        font-family: 'JetBrains Mono', monospace;
+        text-shadow: 0 0 10px #7dffa360; line-height: 1.15;
+        word-break: break-word;
+    }
+    .last-stat .ls-value.highlight { color: #ffd966; text-shadow: 0 0 12px #ffd96680; }
+    .last-stat .ls-value.rank { color: #a6ffc0; }
+
+    /* INFO-KACHELN */
+    .info-row {
+        display: grid; grid-template-columns: repeat(3, 1fr);
+        gap: 1rem; margin-bottom: 2rem;
+    }
+    @media (max-width: 900px) { .info-row { grid-template-columns: 1fr; } }
+    .info-card {
+        background: linear-gradient(145deg, #04241acc, #021710cc);
+        backdrop-filter: blur(12px);
+        border: 1.5px solid #2c6b4a; border-radius: 1.8rem;
+        padding: 1.2rem 1.5rem;
+        display: flex; align-items: center; gap: 1.1rem;
+        box-shadow: 0 0 30px #000000aa, 0 0 0 1px #7dffa310 inset;
+        transition: border-color 0.3s, transform 0.2s;
+    }
+    .info-card:hover { border-color: #7dffa380; transform: translateY(-3px); }
+    .info-icon {
+        font-size: 2rem; filter: drop-shadow(0 0 10px #7dffa3); flex-shrink: 0;
+    }
+    .info-content h4 {
+        font-size: 0.68rem; text-transform: uppercase; color: #7ea88e;
+        letter-spacing: 1.5px; margin-bottom: 0.25rem;
+    }
+    .info-content .info-value {
+        font-size: 1.55rem; font-weight: 700; color: #d4ffb0;
+        font-family: 'JetBrains Mono', monospace; line-height: 1.1;
+        text-shadow: 0 0 15px #7dffa380;
+    }
+    .info-content .info-sub { font-size: 0.72rem; color: #8fc79a; margin-top: 0.2rem; }
+
+    /* TOP-N */
+    .topn-section {
+        background: linear-gradient(145deg, #04241acc, #021710cc);
+        border: 1.5px solid #2c6b4a; border-radius: 2rem;
+        padding: 1.3rem 1.6rem; margin-bottom: 2rem;
+        display: flex; align-items: center; justify-content: space-between;
+        flex-wrap: wrap; gap: 1.2rem;
+        box-shadow: 0 0 30px #000000aa;
+    }
+    .topn-label { display: flex; flex-direction: column; gap: 0.2rem; }
+    .topn-label h4 {
+        font-size: 0.7rem; text-transform: uppercase; color: #7ea88e;
+        letter-spacing: 1.5px;
+    }
+    .topn-label .topn-value {
+        font-size: 1.6rem; font-weight: 700; color: #d4ffb0;
+        font-family: 'JetBrains Mono', monospace;
+        text-shadow: 0 0 15px #7dffa380;
+    }
+    .topn-label .topn-sub { font-size: 0.75rem; color: #8fc79a; }
+    .topn-controls {
+        display: flex; align-items: center; gap: 1rem;
+        flex: 1; max-width: 520px;
+    }
+    .topn-controls input[type="range"] {
+        flex: 1; -webkit-appearance: none; appearance: none;
+        height: 6px; border-radius: 3px;
+        background: linear-gradient(90deg, #7dffa3, #2ea05c); outline: none;
+    }
+    .topn-controls input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none; appearance: none;
+        width: 22px; height: 22px; border-radius: 50%;
+        background: #d4ffb0; border: 2px solid #7dffa3;
+        cursor: pointer; box-shadow: 0 0 15px #7dffa3;
+    }
+    .topn-controls input[type="number"] {
+        width: 80px; background: #02170f;
+        border: 1.5px solid #2c6b4a; color: #d4ffb0;
+        font-weight: 700; font-size: 1rem; padding: 0.5rem 0.8rem;
+        border-radius: 1rem; outline: none; text-align: right;
+        font-family: 'JetBrains Mono', monospace;
+    }
+    .topn-controls input[type="number"]:focus {
+        border-color: #7dffa3; box-shadow: 0 0 20px #7dffa360;
+    }
+    .topn-share {
+        font-size: 1.6rem; font-weight: 700; color: #ffd966;
+        font-family: 'JetBrains Mono', monospace;
+        text-shadow: 0 0 15px #ffd96680;
+        min-width: 110px; text-align: right;
+    }
+
+    /* TABELLE */
+    .table-section {
+        background: linear-gradient(145deg, #041a12ee, #020e08ee);
+        backdrop-filter: blur(14px);
+        border-radius: 2.5rem; padding: 1.7rem 1.4rem;
+        border: 1.5px solid #1e4d36;
+        box-shadow: 0 0 60px #000000cc, 0 0 0 1px #7dffa320 inset;
+    }
+    .table-header {
+        display: flex; justify-content: space-between; align-items: center;
+        flex-wrap: wrap; margin-bottom: 1.3rem; padding: 0 0.5rem; gap: 0.7rem;
+    }
+    .table-header h3 {
+        font-size: 1.3rem; color: #d4ffb0; font-weight: 600;
+        letter-spacing: 1px; text-shadow: 0 0 20px #7dffa380;
+    }
+    .count-badge {
+        background: #0c2c1e; padding: 0.35rem 1.3rem;
+        border-radius: 3rem; font-size: 0.85rem;
+        color: #a8d4a0; border: 1px solid #2c6b4a;
+    }
+    .table-wrapper {
+        max-height: 600px; overflow-y: auto;
+        border-radius: 1.5rem; scrollbar-width: thin;
+        scrollbar-color: #7dffa3 #041a12;
+    }
+    .table-wrapper::-webkit-scrollbar { width: 10px; }
+    .table-wrapper::-webkit-scrollbar-track { background: #041a12; border-radius: 10px; }
+    .table-wrapper::-webkit-scrollbar-thumb { background: #7dffa3; border-radius: 10px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th {
+        text-align: left; padding: 0.9rem 0.8rem 0.75rem 1rem;
+        color: #7dffa3; font-weight: 700; text-transform: uppercase;
+        font-size: 0.68rem; letter-spacing: 1.2px;
+        border-bottom: 2px solid #1e4d36;
+        background: #041a12ee; position: sticky; top: 0;
+        backdrop-filter: blur(8px); z-index: 10;
+        cursor: pointer; user-select: none;
+        transition: color 0.2s, background 0.2s;
+        white-space: nowrap;
+    }
+    th:hover { color: #f0ffdb; background: #0a2c1d; }
+    th .sort-arrow {
+        display: inline-block; margin-left: 0.35rem; font-size: 0.75rem;
+        opacity: 0.4; transition: opacity 0.2s, color 0.2s;
+    }
+    th.sort-active .sort-arrow { opacity: 1; color: #d4ffb0; text-shadow: 0 0 10px #7dffa3; }
+    th.sort-active { color: #d4ffb0; background: #0e3423; }
+    th.no-sort { cursor: default; }
+    th.no-sort:hover { color: #7dffa3; background: #041a12ee; }
+    td {
+        padding: 0.6rem 0.8rem 0.6rem 1rem;
+        border-bottom: 1px solid #0f2a1e;
+        transition: background 0.15s;
+    }
+    tr:hover td { background: #0a2417cc; }
+    .row-num {
+        color: #4a7a5e; font-weight: 600; width: 45px;
+        font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
+    }
+    .rank {
+        color: #7dffa3; font-weight: 700; width: 55px;
+        font-family: 'JetBrains Mono', monospace;
+    }
+    .name-cell { font-weight: 700; font-size: 1.05rem; color: #f0e6d2; }
+    .chuhan-cell { color: #ffd966; font-size: 1rem; letter-spacing: 1px; }
+    .pinyin-cell { color: #95b0d4; font-style: italic; }
+    .num-cell {
+        font-family: 'JetBrains Mono', monospace; color: #a0e0b0;
+        text-align: right; padding-right: 1rem;
+    }
+    .generated-cell {
+        font-family: 'JetBrains Mono', monospace; color: #ffd966;
+        font-weight: 700; text-align: right; padding-right: 1.5rem;
+    }
+    .per100gen-cell {
+        font-family: 'JetBrains Mono', monospace; color: #b8d0ff;
+        text-align: right; padding-right: 1rem; font-size: 0.85rem;
+        min-width: 190px;
+    }
+    .per100gen-wrapper {
+        display: flex; align-items: center; justify-content: flex-end; gap: 0.5rem;
+    }
+    .per100gen-bar-track {
+        flex: 1; max-width: 90px;
+        height: 8px; border-radius: 4px;
+        background: #0f2a1e;
+        overflow: hidden;
+        box-shadow: inset 0 0 5px #00000080;
+    }
+    .per100gen-bar-fill {
+        height: 100%; border-radius: 4px;
+        background: linear-gradient(90deg, #b8d0ff, #7a9dff);
+        box-shadow: 0 0 10px #b8d0ff80;
+        transition: width 0.3s;
+    }
+    .per100gen-value {
+        min-width: 90px; text-align: right;
+    }
+</style>
+</head>
+<body>
+<div class="app-container">
+    <div class="hero">
+        <h1>Họ Việt Nam · Generator</h1>
+        <p>dựa trên dữ liệu thực tế · vietnamesische Nachnamen</p>
+    </div>
+
+    <div class="generator-panel">
+        <div class="gen-box">
+            <h2><span>🎲</span> Einzelgenerator</h2>
+            <div class="single-row">
+                <button class="btn" id="generateSingleBtn">✨ Namen ziehen</button>
+            </div>
+            <div class="hint">Original-Wahrscheinlichkeiten · eine Ziehung</div>
+        </div>
+        <div class="gen-box">
+            <h2><span>⚡</span> Schnellgenerator</h2>
+            <div class="bulk-row">
+                <input type="number" id="bulkCount" class="input-neon" placeholder="z. B. 1000000" min="1" step="1">
+                <button class="btn" id="generateBulkBtn">🚀 Generieren</button>
+            </div>
+            <div class="hint">Keine Obergrenze · kumulative Verteilung + Binärsuche · exakte Wahrscheinlichkeiten</div>
+        </div>
+    </div>
+
+    <!-- ZULETZT GENERIERT -->
+    <div class="last-section">
+        <div class="last-header">
+            <div class="last-title">zuletzt generiert</div>
+        </div>
+
+        <div class="last-names">
+            <div class="last-name-card primary">
+                <div class="ln-label">Vietnamesisch</div>
+                <div class="ln-value" id="lastNameDisplay">Nguyễn</div>
+            </div>
+            <div class="last-name-card chuhan">
+                <div class="ln-label">Chữ Hán</div>
+                <div class="ln-value" id="lastChuHanDisplay">阮</div>
+            </div>
+            <div class="last-name-card pinyin">
+                <div class="ln-label">Pinyin</div>
+                <div class="ln-value" id="lastPinyinDisplay">Ruǎn</div>
+            </div>
+        </div>
+
+        <div class="last-stats">
+            <div class="last-stat">
+                <span class="ls-label">Rang</span>
+                <span class="ls-value rank" id="lastRankDisplay">1</span>
+            </div>
+            <div class="last-stat">
+                <span class="ls-label">Häufigkeit</span>
+                <span class="ls-value" id="lastFrequencyDisplay">31.518.000</span>
+            </div>
+            <div class="last-stat">
+                <span class="ls-label">Pro 100 Mio.</span>
+                <span class="ls-value" id="lastProbDisplay">30.900.000</span>
+            </div>
+            <div class="last-stat">
+                <span class="ls-label">Generiert</span>
+                <span class="ls-value highlight" id="lastGeneratedCount">0</span>
+            </div>
+            <div class="last-stat">
+                <span class="ls-label">Pro 100 Mio. generiert</span>
+                <span class="ls-value highlight" id="lastPer100GenDisplay">0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- INFO -->
+    <div class="info-row">
+        <div class="info-card">
+            <div class="info-icon">👥</div>
+            <div class="info-content">
+                <h4>Personen insgesamt</h4>
+                <div class="info-value" id="totalPersonsInfo">0</div>
+                <div class="info-sub">Summe aller Nachnamen-Träger</div>
+            </div>
+        </div>
+        <div class="info-card">
+            <div class="info-icon">🌐</div>
+            <div class="info-content">
+                <h4>Effektive Vielfalt</h4>
+                <div class="info-value" id="effectiveDiversity">0</div>
+                <div class="info-sub">Namen mit ≥ 1 Ziehung</div>
+            </div>
+        </div>
+        <div class="info-card">
+            <div class="info-icon">📈</div>
+            <div class="info-content">
+                <h4>Ziehungen gesamt</h4>
+                <div class="info-value" id="totalDrawsInfo">0</div>
+                <div class="info-sub">Alle Generierungen zusammengezählt</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOP-N -->
+    <div class="topn-section">
+        <div class="topn-label">
+            <h4>Top-N-Anteil (einstellbar)</h4>
+            <div class="topn-value" id="topNValue">10</div>
+            <div class="topn-sub" id="topNShareSub">Anteil der Top 10 an Gesamtbevölkerung</div>
+        </div>
+        <div class="topn-controls">
+            <input type="range" id="topNSlider" min="1" max="300" value="10" step="1">
+            <input type="number" id="topNInput" min="1" max="300" value="10" step="1">
+        </div>
+        <div class="topn-share" id="topNShare">77,20 %</div>
+    </div>
+
+    <!-- TABELLE -->
+    <div class="table-section">
+        <div class="table-header">
+            <h3>📋 Alle Nachnamen nach Häufigkeit</h3>
+            <div class="count-badge" id="totalNamesCount">300 Einträge</div>
+        </div>
+        <div class="table-wrapper">
+            <table id="surnameTable">
+                <thead>
+                    <tr>
+                        <th class="no-sort">#</th>
+                        <th data-sort="nr">Rang <span class="sort-arrow">▼</span></th>
+                        <th data-sort="viet">Vietnamesisch <span class="sort-arrow">▼</span></th>
+                        <th data-sort="chuhan">Chữ Hán <span class="sort-arrow">▼</span></th>
+                        <th data-sort="pinyin">Pinyin <span class="sort-arrow">▼</span></th>
+                        <th data-sort="anzahl" style="text-align:right">Häufigkeit <span class="sort-arrow">▼</span></th>
+                        <th data-sort="per100Mio" style="text-align:right">pro 100 Mio. <span class="sort-arrow">▼</span></th>
+                        <th data-sort="generated" style="text-align:right">Generiert <span class="sort-arrow">▼</span></th>
+                        <th data-sort="per100gen" style="text-align:right">pro 100 Mio. generiert <span class="sort-arrow">▼</span></th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    const rawData = [
+        [1, "Nguyễn", "阮", "Ruǎn", 31518000],
+        [2, "Trần", "陳", "Chén", 10021500],
+        [3, "Lê", "黎", "Lí", 7898880],
+        [4, "Phạm", "范", "Fàn", 6050640],
+        [5, "Hoàng", "黃", "Huáng", 3382320],
+        [6, "Vũ", "武", "Wǔ", 2789700],
+        [7, "Bùi", "裴", "Péi", 2528580],
+        [8, "Phan", "潘", "Pān", 2426580],
+        [9, "Đỗ", "杜", "Dù", 2235840],
+        [10, "Võ", "禹", "Yǔ", 2138940],
+        [11, "Huỳnh", "皇", "Huáng", 2011440],
+        [12, "Dương", "楊", "Yáng", 2005320],
+        [13, "Đặng", "鄧", "Dèng", 2001240],
+        [14, "Ngô", "吳", "Wú", 1839060],
+        [15, "Trương", "張", "Zhāng", 1705440],
+        [16, "Đinh", "丁", "Dīng", 1344360],
+        [17, "Hồ", "胡", "Hú", 1339260],
+        [18, "Hà", "何", "Hé", 1033260],
+        [19, "Đào", "陶", "Táo", 987360],
+        [20, "Đoàn", "段", "Duàn", 954720],
+        [21, "Trịnh", "鄭", "Zhèng", 949620],
+        [22, "Lương", "梁", "Liáng", 895560],
+        [23, "Mai", "梅", "Méi", 832320],
+        [24, "Cao", "高", "Gāo", 716040],
+        [25, "Lưu", "劉", "Liú", 682380],
+        [26, "Lý", "李", "Lǐ", 667080],
+        [27, "Nông", "農", "Nóng", 622200],
+        [28, "Lâm", "林", "Lín", 567120],
+        [29, "Tạ", "謝", "Xiè", 502860],
+        [30, "Phùng", "馮", "Féng", 443700],
+        [31, "Triệu", "趙", "Zhào", 420240],
+        [32, "Chu", "朱", "Zhū", 399840],
+        [33, "Thái", "蔡", "Cài", 337620],
+        [34, "Tô", "蘇", "Sū", 332520],
+        [35, "Vương", "王", "Wáng", 293760],
+        [36, "Ma", "麻", "Má", 282540],
+        [37, "Đàm", "譚", "Tán", 274380],
+        [38, "Châu", "周", "Zhōu", 229500],
+        [39, "Vi", "韋", "Wéi", 224400],
+        [40, "Lại", "賴", "Lài", 204000],
+        [41, "Quách", "郭", "Guō", 195840],
+        [42, "Văn", "文", "Wén", 190740],
+        [43, "Đồng", "童", "Tóng", 178500],
+        [44, "Hứa", "許", "Xǔ", 177480],
+        [45, "Tống", "宋", "Sòng", 170340],
+        [46, "Thạch", "石", "Shí", 151980],
+        [47, "La", "羅", "Luó", 146880],
+        [48, "Tăng", "曾", "Zēng", 138720],
+        [49, "Thân", "申", "Shēn", 133620],
+        [50, "Lục", "陸", "Lù", 121380],
+        [51, "Kiều", "喬", "Qiáo", 118320],
+        [52, "Đậu", "竇", "Dòu", 108120],
+        [53, "Diệp", "葉", "Yè", 103020],
+        [54, "Từ", "徐", "Xú", 100980],
+        [55, "Y", "伊", "Yī", 93840],
+        [56, "Mã", "馬", "Mǎ", 87720],
+        [57, "Bế", "閉", "Bì", 83640],
+        [58, "Nghiêm", "嚴", "Yán", 80580],
+        [59, "Lã", "呂", "Lǚ", 77520],
+        [60, "Lữ", "旅", "Lǚ", 70380],
+        [61, "Lô", "盧", "Lú", 70380],
+        [62, "Lò", "蘿", "Luó", 69360],
+        [63, "Mạc", "莫", "Mò", 65280],
+        [64, "Kim", "金", "Jīn", 65280],
+        [65, "Giang", "江", "Jiāng", 65280],
+        [66, "Lường", "良", "Liáng", 62220],
+        [67, "Bạch", "白", "Bái", 60180],
+        [68, "Bàn", "盤", "Pán", 59160],
+        [69, "Danh", "名", "Míng", 55080],
+        [70, "Ninh", "寧", "Níng", 54060],
+        [71, "Doãn", "尹", "Yǐn", 53040],
+        [72, "Chung", "鍾", "Zhōng", 53040],
+        [73, "Mông", "蒙", "Méng", 51000],
+        [74, "Lăng", "凌", "Líng", 48960],
+        [75, "Trang", "莊", "Zhuāng", 47940],
+        [76, "Phương", "方", "Fāng", 46920],
+        [77, "Âu", "歐", "Ōu", 46920],
+        [78, "Giáp", "甲", "Jiǎ", 45900],
+        [79, "Sầm", "岑", "Cén", 43860],
+        [80, "Hồng", "洪", "Hóng", 43860],
+        [81, "Sơn", "山", "Shān", 42840],
+        [82, "Cù", "瞿", "Qú", 40800],
+        [83, "Phí", "費", "Fèi", 39780],
+        [84, "Lư", "蘆", "Lú", 39780],
+        [85, "Khương", "姜", "Jiāng", 38760],
+        [86, "Khổng", "孔", "Kǒng", 38760],
+        [87, "Dư", "余", "Yú", 36720],
+        [88, "Tiêu", "蕭", "Xiāo", 36720],
+        [89, "Liêu", "廖", "Liào", 35700],
+        [90, "Thiều", "韶", "Sháo", 34680],
+        [91, "Vy", "圍", "Wéi", 34680],
+        [92, "Tôn", "孫", "Sūn", 33660],
+        [93, "Lộc", "祿", "Lù", 32640],
+        [94, "Long", "龍", "Lóng", 32640],
+        [95, "Đường", "唐", "Táng", 27540],
+        [96, "Khuất", "屈", "Qū", 27540],
+        [97, "Giàng", "羊", "Yáng", 26520],
+        [98, "Nịnh", "佞", "Nìng", 26520],
+        [99, "Nhữ", "汝", "Rǔ", 25500],
+        [100, "Quan", "關", "Guān", 25500],
+        [101, "Khưu", "邱", "Qiū", 25500],
+        [102, "Khúc", "曲", "Qū", 25500],
+        [103, "Sùng", "崇", "Chóng", 25500],
+        [104, "Trà", "茶", "Chá", 24480],
+        [105, "Bành", "彭", "Péng", 24480],
+        [106, "Trình", "程", "Chéng", 21420],
+        [107, "Ngụy", "魏", "Wèi", 21420],
+        [108, "Hầu", "侯", "Hóu", 20400],
+        [109, "Vàng", "潢", "Huáng", 20400],
+        [110, "Lang", "郎", "Láng", 19380],
+        [111, "Mạch", "麥", "Mài", 19380],
+        [112, "Ngân", "銀", "Yín", 19380],
+        [113, "Biện", "卞", "Biàn", 19380],
+        [114, "Quang", "光", "Guāng", 18360],
+        [115, "Tào", "曹", "Cáo", 18360],
+        [116, "Chế", "制", "Zhì", 18360],
+        [117, "Kha", "柯", "Kē", 17340],
+        [118, "An", "安", "Ān", 17340],
+        [119, "Nhâm", "任", "Rèn", 17340],
+        [120, "Ngọc", "玉", "Yù", 17340],
+        [121, "Lai", "來", "Lái", 17340],
+        [122, "Luân", "倫", "Lún", 17340],
+        [123, "Ka", "軻", "Kē", 17340],
+        [124, "Ôn", "溫", "Wēn", 17340],
+        [125, "Tôn-nữ", "尊女", "Zūn nǚ", 17340],
+        [126, "Cấn", "艮", "Gèn", 16320],
+        [127, "Quản", "管", "Guǎn", 16320],
+        [128, "Thi", "施", "Shī", 16320],
+        [129, "A", "阿", "Ā", 16320],
+        [130, "Chau", "舟", "Zhōu", 15300],
+        [131, "Hàn", "韓", "Hán", 15300],
+        [132, "Hàng", "杭", "Háng", 15300],
+        [133, "Ông", "翁", "Wēng", 15300],
+        [134, "Thào", "匋", "Táo", 14280],
+        [135, "Thẩm", "沈", "Shěn", 14280],
+        [136, "Nhan", "顏", "Yán", 14280],
+        [137, "Liễu", "柳", "Liǔ", 14280],
+        [138, "Đới", "戴", "Dài", 14280],
+        [139, "Chử", "褚", "Chǔ", 14280],
+        [140, "Ngọ", "午", "Wǔ", 14280],
+        [141, "Hán", "漢", "Hàn", 14280],
+        [142, "Liên", "連", "Lián", 13260],
+        [143, "Lầu", "樓", "Liú", 13260],
+        [144, "Tất", "畢", "Bì", 13260],
+        [145, "Diêm", "閻", "Yán", 13260],
+        [146, "Linh", "靈", "Líng", 13260],
+        [147, "Ong", "鰕", "Wēng", 13260],
+        [148, "Vòng", "凰", "Huáng", 13260],
+        [149, "Thị", "氏", "Shì", 13260],
+        [150, "Tôn-thất", "尊室", "Zūnshì", 12240],
+        [151, "Phó", "傅", "Fù", 12240],
+        [152, "Quàng", "爌", "Huáng", 12240],
+        [153, "Cầm", "琴", "Qín", 11220],
+        [154, "Viên", "袁", "Yuán", 11220],
+        [155, "Tưởng", "蔣", "Jiǎng", 11220],
+        [156, "Uông", "汪", "Wāng", 11220],
+        [157, "Lù", "麓", "Lù", 11220],
+        [158, "Hạ", "夏", "Xià", 11220],
+        [159, "Phù", "符", "Fú", 10200],
+        [160, "Ngũ", "伍", "Wǔ", 10200],
+        [161, "Bàng", "龐", "Páng", 10200],
+        [162, "Trầm", "沉", "Shěn", 10200],
+        [163, "Ung", "雍", "Yōng", 10200],
+        [164, "Quảng", "鄺", "Kuàng", 10200],
+        [165, "Sử", "史", "Shǐ", 9180],
+        [166, "Lao", "勞", "Láo", 9180],
+        [167, "Điểu", "鳥", "Niǎo", 9180],
+        [168, "Vưu", "尤", "Yóu", 9180],
+        [169, "Ân", "殷", "Yīn", 8160],
+        [170, "Cái", "蓋", "Gài", 8160],
+        [171, "Vừ", "吾", "Wú", 8160],
+        [172, "Công", "龔", "Gōng", 8160],
+        [173, "Cam", "甘", "Gān", 8160],
+        [174, "Lãnh", "冷", "Lěng", 8160],
+        [175, "Tòng", "從", "Cóng", 8160],
+        [176, "Mẫn", "閔", "Mǐn", 8160],
+        [177, "Kiên", "堅", "Jiān", 8160],
+        [178, "Chiêm", "詹", "Zhān", 7140],
+        [179, "Lôi", "雷", "Léi", 7140],
+        [180, "Mùa", "碼", "Mǎ", 7140],
+        [181, "Vì", "偉", "Wéi", 7140],
+        [182, "Cáp", "合", "Hé", 7140],
+        [183, "Lành", "糧", "Liáng", 7140],
+        [184, "Cà", "茄", "Kē", 7140],
+        [185, "Hoa", "華", "Huá", 7140],
+        [186, "Lạc", "駱", "Luò", 7140],
+        [187, "Cổ", "古", "Gǔ", 7140],
+        [188, "Sái", "柴", "Chái", 7140],
+        [189, "Cung", "恭", "Gōng", 7140],
+        [190, "Điền", "田", "Tián", 6120],
+        [191, "Tiền", "錢", "Qián", 6120],
+        [192, "Xa", "車", "Chē", 6120],
+        [193, "Nay", "儂", "Nóng", 6120],
+        [194, "Du", "游", "Yóu", 6120],
+        [195, "Tiết", "薛", "Xuē", 6120],
+        [196, "Luyện", "練", "Liàn", 6120],
+        [197, "Chẩu", "笊", "Zhào", 5100],
+        [198, "Phú", "富", "Fù", 5100],
+        [199, "Nguyên", "元", "Yuán", 5100],
+        [200, "Bá", "柏", "Bǎi", 5100],
+        [201, "Sằm", "梣", "Cén", 5100],
+        [202, "Tân", "辛", "Xīn", 5100],
+        [203, "Thang", "湯", "Tāng", 5100],
+        [204, "Hòa", "和", "Hé", 5100],
+        [205, "Thới", "茝", "Cài", 5100],
+        [206, "Chương", "章", "Zhāng", 5100],
+        [207, "Lều", "鉚", "Liú", 5100],
+        [208, "Khiếu", "叫", "Jiào", 5100],
+        [209, "Tạc", "乍", "Zhà", 5100],
+        [210, "Niê", "聶", "Niè", 5100],
+        [211, "Hùng", "熊", "Xióng", 5100],
+        [212, "Lỗ", "魯", "Lǔ", 4080],
+        [213, "Đổng", "董", "Dǒng", 4080],
+        [214, "Lợi", "利", "Lì", 4080],
+        [215, "Thiệu", "邵", "Shào", 4080],
+        [216, "Lộ", "路", "Lù", 4080],
+        [217, "Moong", "朦", "Méng", 4080],
+        [218, "Ca", "歌", "Kē", 4080],
+        [219, "Tẩn", "蔯", "Chén", 4080],
+        [220, "Tằng", "增", "Zēng", 4080],
+        [221, "Đại", "大", "Dà", 4080],
+        [222, "Bằng", "朋", "Féng", 4080],
+        [223, "Điêu", "刁", "Diāo", 4080],
+        [224, "Lèng", "綾", "Liáng", 4080],
+        [225, "Khấu", "寇", "Kòu", 4080],
+        [226, "Bồ", "蒲", "Pú", 4080],
+        [227, "Ban", "班", "Bān", 4080],
+        [228, "Mó", "驀", "Mò", 4080],
+        [229, "Đăng", "登", "Dēng", 4080],
+        [230, "Hờ", "頊", "Xiàng", 4080],
+        [231, "Lu", "鱸", "Lú", 4080],
+        [232, "Quyền", "權", "Quán", 4080],
+        [233, "Ly", "籬", "Lǐ", 4080],
+        [234, "Mạnh", "孟", "Mèng", 4080],
+        [235, "Thượng", "尚", "Shàng", 3060],
+        [236, "Cụt", "崛", "Qū", 3060],
+        [237, "Sa", "沙", "Shā", 3060],
+        [238, "Phàn", "樊", "Fán", 3060],
+        [239, "Giản", "簡", "Jiǎn", 3060],
+        [240, "Ưng", "鷹", "Yīng", 3060],
+        [241, "Mầu", "繆", "Móu", 3060],
+        [242, "Tráng", "壯", "Zhuàng", 3060],
+        [243, "Và", "旺", "Wáng", 3060],
+        [244, "Xồng", "雄", "Xióng", 3060],
+        [245, "Hạc", "鶴", "Hè", 3060],
+        [246, "Lỳ", "鯉", "Lǐ", 3060],
+        [247, "Rơ", "邏", "Luó", 3060],
+        [248, "Phi", "丕", "Pī", 3060],
+        [249, "Trác", "卓", "Zhuó", 3060],
+        [250, "Bảo", "寶", "Bǎo", 3060],
+        [251, "Tao", "濤", "Táo", 3060],
+        [252, "Tường", "祥", "Xiáng", 3060],
+        [253, "Trung", "中", "Zhōng", 3060],
+        [254, "Hạng", "項", "Xiàng", 3060],
+        [255, "Thủy", "水", "Shuǐ", 3060],
+        [256, "Ứng", "應", "Yìng", 3060],
+        [257, "Văng", "璜", "Huáng", 3060],
+        [258, "Mang", "芒", "Máng", 3060],
+        [259, "Lo", "蘿", "Luó", 3060],
+        [260, "Toàn", "全", "Quán", 3060],
+        [261, "Đằng", "滕", "Téng", 3060],
+        [262, "Chúc", "祝", "Zhù", 3060],
+        [263, "Giảng", "講", "Jiǎng", 3060],
+        [264, "Đông", "東", "Dōng", 3060],
+        [265, "Chảo", "爪", "Zhào", 3060],
+        [266, "Ngôn", "言", "Yán", 3060],
+        [267, "Sần", "岑", "Cén", 3060],
+        [268, "Đàng", "鄚", "Zhèng", 3060],
+        [269, "Trì", "池", "Chí", 3060],
+        [270, "Chí", "志", "Zhì", 3060],
+        [271, "Tần", "秦", "Qín", 3060],
+        [272, "Thành", "成", "Chéng", 3060],
+        [273, "Đầu", "頭", "Tóu", 3060],
+        [274, "Phòng", "房", "Fáng", 3060],
+        [275, "Ô", "區", "Ōu", 3060],
+        [276, "Khuông", "匡", "Kuāng", 2040],
+        [277, "Duy", "維", "Wéi", 2040],
+        [278, "Chìu", "詔", "Zhào", 2040],
+        [279, "Quán", "貫", "Guǎn", 2040],
+        [280, "Cồ", "劬", "Qú", 2040],
+        [281, "Đan", "丹", "Dān", 2040],
+        [282, "Ngạc", "鄂", "È", 2040],
+        [283, "Hỏa", "火", "Huǒ", 2040],
+        [284, "Tiên", "仙", "Xiān", 2040],
+        [285, "Thổ", "土", "Tǔ", 2040],
+        [286, "Đống", "棟", "Dòng", 2040],
+        [287, "Lỷ", "浬", "Lǐ", 2040],
+        [288, "Hướng", "向", "Xiàng", 2040],
+        [289, "Trạc", "濯", "Zhuó", 2040],
+        [290, "Quế", "桂", "Guì", 2040],
+        [291, "Khà", "軻", "Kē", 2040],
+        [292, "Vĩnh", "永", "Yǒng", 2040],
+        [293, "Tán", "散", "Sǎn", 2040],
+        [294, "Đèo", "軺", "Diāo", 2040],
+        [295, "Mè", "罵", "Mǎ", 2040],
+        [296, "Yên", "鄢", "Yān", 2040],
+        [297, "Liêng", "粱", "Liáng", 2040],
+        [298, "Diệc", "亦", "Yì", 2040],
+        [299, "Man", "蠻", "Mán", 2040],
+        [300, "Cát", "葛", "Gě", 2040],
+    ];
+
+    const totalPopulation = rawData.reduce((sum, row) => sum + row[4], 0);
+
+    /* ============================================================
+       STRICHZAHL-TABELLE für Chữ Hán (traditionelle Hanja)
+       Wird für die echte Strichzahl-Sortierung beim Klick auf
+       „Chữ Hán" benötigt. Enthält auch die zweiten Zeichen von
+       mehrstelligen Nachnamen (z. B. 尊女, 尊室).
+       ============================================================ */
+    const strokeCounts = {
+        // === Zeichen 1-100 ===
+        "阮":7,"陳":11,"黎":15,"范":9,"黃":12,"武":8,"裴":14,"潘":16,"杜":7,"禹":9,
+        "皇":9,"楊":13,"鄧":15,"吳":7,"張":11,"丁":2,"胡":11,"何":7,"陶":16,"段":9,
+        "鄭":19,"梁":11,"梅":11,"高":10,"劉":15,"李":7,"農":13,"林":8,"謝":17,"馮":12,
+        "趙":14,"朱":6,"蔡":17,"蘇":22,"王":4,"麻":11,"譚":19,"周":8,"韋":9,"賴":16,
+        "郭":15,"文":4,"童":12,"許":11,"宋":7,"石":5,"羅":20,"曾":12,"申":5,"陸":16,
+        "喬":12,"竇":20,"葉":15,"徐":10,"伊":6,"馬":10,"閉":11,"嚴":20,"呂":7,"旅":10,
+        "盧":16,"蘿":25,"莫":13,"金":8,"江":7,"良":7,"白":5,"盤":15,"名":6,"寧":14,
+        "尹":4,"鍾":17,"蒙":16,"凌":11,"莊":13,"方":4,"歐":15,"甲":5,"岑":7,"洪":10,
+        "山":3,"瞿":18,"費":12,"蘆":22,"姜":9,"孔":4,"余":7,"蕭":18,"廖":14,"韶":14,
+        "圍":12,"孫":10,"祿":13,"龍":16,"唐":10,"屈":8,"羊":6,"佞":7,"汝":7,"關":19,
+        "邱":12,"曲":6,"崇":11,"茶":12,"彭":12,"程":12,"魏":18,"侯":9,"潢":16,"郎":9,
+        "麥":11,"銀":14,"卞":4,"光":6,"曹":11,"制":8,"柯":9,"安":6,"任":6,"玉":5,
+        "來":8,"倫":10,"軻":12,"溫":14,"尊":12,"女":3,"艮":6,"管":14,"施":9,"阿":8,
+        "舟":6,"韓":17,"杭":8,"翁":10,"匋":8,"沈":8,"顏":18,"柳":9,"戴":18,"褚":14,
+        "午":4,"漢":15,"連":14,"樓":15,"畢":11,"閻":16,"靈":24,"鰕":20,"凰":11,"氏":4,
+        "室":9,"傅":12,"爌":19,"琴":12,"袁":10,"蔣":17,"汪":8,"麓":19,"夏":10,"符":11,
+        "伍":6,"龐":19,"沉":8,"雍":13,"鄺":19,"史":5,"勞":12,"鳥":11,"尤":4,"殷":10,
+        "蓋":14,"吾":7,"龔":22,"甘":5,"冷":7,"從":11,"閔":12,"堅":11,"詹":13,"雷":13,
+        "碼":15,"偉":11,"合":6,"糧":18,"茄":9,"華":12,"駱":16,"古":5,"柴":9,"恭":10,
+        "田":5,"錢":16,"車":7,"儂":15,"游":12,"薛":19,"練":15,"笊":10,"富":12,"元":4,
+        "柏":9,"梣":11,"辛":7,"湯":13,"和":8,"茝":11,"章":11,"鉚":13,"叫":5,"乍":5,
+        "聶":18,"熊":14,"魯":15,"董":15,"利":7,"邵":12,"路":13,"朦":18,"歌":14,"蔯":17,
+        "增":15,"大":3,"朋":8,"刁":2,"綾":14,"寇":11,"蒲":16,"班":10,"驀":21,"登":12,
+        "頊":13,"鱸":27,"權":22,"籬":24,"孟":8,"尚":8,"崛":11,"沙":7,"樊":15,"簡":18,
+        "鷹":24,"繆":17,"壯":7,"旺":8,"雄":12,"鶴":21,"鯉":18,"邏":26,"丕":5,"卓":8,
+        "寶":20,"濤":18,"祥":11,"中":4,"項":12,"水":4,"應":17,"璜":16,"芒":6,"全":6,
+        "滕":14,"祝":10,"講":17,"東":8,"爪":4,"言":7,"鄚":15,"池":7,"志":7,"秦":10,
+        "成":7,"頭":16,"房":8,"區":11,"匡":6,"維":14,"詔":12,"貫":11,"劬":7,"丹":4,
+        "鄂":12,"火":4,"仙":5,"土":3,"棟":12,"浬":10,"向":6,"濯":17,"桂":10,"永":5,
+        "散":12,"軺":12,"罵":16,"鄢":14,"粱":13,"亦":6,"蠻":25,"葛":15,
+    };
+
+    // Strichzahl eines Chữ-Hán-Zeichens oder eines mehrstelligen Chữ-Hán-Namens
+    function getStrokes(chuhan) {
+        if (strokeCounts[chuhan] !== undefined) return strokeCounts[chuhan];
+        let sum = 0;
+        for (const ch of chuhan) {
+            if (strokeCounts[ch] === undefined) return 999;
+            sum += strokeCounts[ch];
+        }
+        return sum;
+    }
+
+    const surnames = rawData.map(([nr, viet, chuhan, pinyin, anzahl]) => ({
+        nr, viet, chuhan, pinyin, anzahl,
+        strokes: getStrokes(chuhan),
+        generated: 0,
+        per100Mio: (anzahl / totalPopulation) * 100000000,
+        per100Gen: 0
+    }));
+
+    // ===== VIETNAMESISCHE ALPHABETISCHE SORTIERUNG =====
+    const viCollator = new Intl.Collator('vi', { sensitivity: 'base', numeric: false });
+
+    function compareVietnamese(a, b) {
+        return viCollator.compare(a.viet, b.viet);
+    }
+
+    // ===== FESTE RÄNGE (bei Gleichstand alphabetisch) =====
+    const fixedRanks = (() => {
+        const sorted = [...surnames].sort((a, b) => {
+            if (b.anzahl !== a.anzahl) return b.anzahl - a.anzahl;
+            return compareVietnamese(a, b);
+        });
+        const map = new Map();
+        sorted.forEach((s, i) => map.set(s.nr, i + 1));
+        return map;
+    })();
+
+    // ===== KUMULATIVE GEWICHTE FÜR ZIEHUNG =====
+    const { cumulative, totalWeight } = (() => {
+        const cum = [];
+        let sum = 0;
+        for (const s of surnames) { sum += s.anzahl; cum.push(sum); }
+        return { cumulative: cum, totalWeight: sum };
+    })();
+
+    const lastNameDisplay = document.getElementById('lastNameDisplay');
+    const lastChuHanDisplay = document.getElementById('lastChuHanDisplay');
+    const lastPinyinDisplay = document.getElementById('lastPinyinDisplay');
+    const lastProbDisplay = document.getElementById('lastProbDisplay');
+    const lastGeneratedCount = document.getElementById('lastGeneratedCount');
+    const lastRankDisplay = document.getElementById('lastRankDisplay');
+    const lastFrequencyDisplay = document.getElementById('lastFrequencyDisplay');
+    const lastPer100GenDisplay = document.getElementById('lastPer100GenDisplay');
+    const tableBody = document.getElementById('tableBody');
+    const totalNamesCountSpan = document.getElementById('totalNamesCount');
+    const bulkCountInput = document.getElementById('bulkCount');
+    const generateSingleBtn = document.getElementById('generateSingleBtn');
+    const generateBulkBtn = document.getElementById('generateBulkBtn');
+
+    const totalPersonsInfo = document.getElementById('totalPersonsInfo');
+    const effectiveDiversity = document.getElementById('effectiveDiversity');
+    const totalDrawsInfo = document.getElementById('totalDrawsInfo');
+    const topNSlider = document.getElementById('topNSlider');
+    const topNInput = document.getElementById('topNInput');
+    const topNValue = document.getElementById('topNValue');
+    const topNShare = document.getElementById('topNShare');
+    const topNShareSub = document.getElementById('topNShareSub');
+
+    let totalGeneratedAll = 0;
+    // Start-Sortierung: Rang (nr) aufsteigend – Aufhellung liegt auf „Rang"
+    let currentSort = { key: 'nr', dir: 'asc' };
+    let currentTopN = 10;
+
+    function getRandomSurnameIndex() {
+        const r = Math.random() * totalWeight;
+        let lo = 0, hi = cumulative.length - 1;
+        while (lo < hi) {
+            const mid = Math.floor((lo + hi) / 2);
+            if (cumulative[mid] < r) lo = mid + 1;
+            else hi = mid;
+        }
+        return lo;
+    }
+
+    function formatNumber(n) { return n.toLocaleString('de-DE'); }
+
+    function getSortedSurnames() {
+        const sorted = [...surnames];
+        const key = currentSort.key;
+        const dir = currentSort.dir;
+        sorted.sort((a, b) => {
+            let cmp = 0;
+            if (key === 'nr') {
+                const va = fixedRanks.get(a.nr);
+                const vb = fixedRanks.get(b.nr);
+                cmp = dir === 'asc' ? va - vb : vb - va;
+            } else if (key === 'chuhan') {
+                // Strichzahl-Sortierung für Chữ Hán
+                cmp = a.strokes - b.strokes;
+                if (dir === 'desc') cmp = -cmp;
+                if (cmp === 0) {
+                    // Bei gleicher Strichzahl: stur nach vietnamesischem Alphabet
+                    cmp = compareVietnamese(a, b);
+                    if (dir === 'desc') cmp = -cmp;
+                }
+            } else if (key === 'viet') {
+                cmp = viCollator.compare(a.viet, b.viet);
+                if (dir === 'desc') cmp = -cmp;
+            } else if (key === 'pinyin') {
+                cmp = viCollator.compare(a.pinyin, b.pinyin);
+                if (dir === 'desc') cmp = -cmp;
+            } else if (key === 'anzahl') {
+                cmp = dir === 'asc' ? a.anzahl - b.anzahl : b.anzahl - a.anzahl;
+            } else if (key === 'per100Mio') {
+                cmp = dir === 'asc' ? a.per100Mio - b.per100Mio : b.per100Mio - a.per100Mio;
+            } else if (key === 'generated') {
+                cmp = dir === 'asc' ? a.generated - b.generated : b.generated - a.generated;
+            } else if (key === 'per100gen') {
+                cmp = dir === 'asc' ? a.per100Gen - b.per100Gen : b.per100Gen - a.per100Gen;
+            }
+            if (cmp !== 0) return cmp;
+            // Tie-Breaker: nach Rang (nr) aufsteigend
+            return fixedRanks.get(a.nr) - fixedRanks.get(b.nr);
+        });
+        return sorted;
+    }
+
+    function updateLastResult(index) {
+        const s = surnames[index];
+        const rank = fixedRanks.get(s.nr) || 0;
+        lastNameDisplay.textContent = s.viet;
+        lastChuHanDisplay.textContent = s.chuhan;
+        lastPinyinDisplay.textContent = s.pinyin;
+        lastProbDisplay.textContent = formatNumber(Math.round(s.per100Mio));
+        lastGeneratedCount.textContent = formatNumber(s.generated);
+        lastRankDisplay.textContent = formatNumber(rank);
+        lastFrequencyDisplay.textContent = formatNumber(s.anzahl);
+        const per100gen = totalGeneratedAll > 0 ? (s.generated / totalGeneratedAll) * 100000000 : 0;
+        lastPer100GenDisplay.textContent = formatNumber(Math.round(per100gen));
+    }
+
+    function updateTopN() {
+        const sorted = [...surnames].sort((a, b) => {
+            if (b.anzahl !== a.anzahl) return b.anzahl - a.anzahl;
+            return compareVietnamese(a, b);
+        });
+        const n = Math.min(currentTopN, sorted.length);
+        const topNSum = sorted.slice(0, n).reduce((acc, s) => acc + s.anzahl, 0);
+        const share = (topNSum / totalPopulation) * 100;
+        topNValue.textContent = n;
+        topNShare.textContent = share.toFixed(2) + ' %';
+        topNShareSub.textContent = `Anteil der Top ${n} an Gesamtbevölkerung`;
+    }
+
+    function updateLiveStats() {
+        const withGen = surnames.filter(s => s.generated > 0).length;
+        effectiveDiversity.textContent = formatNumber(withGen);
+        totalDrawsInfo.textContent = formatNumber(totalGeneratedAll);
+        for (const s of surnames) {
+            s.per100Gen = totalGeneratedAll > 0 ? (s.generated / totalGeneratedAll) * 100000000 : 0;
+        }
+    }
+
+    function renderTable() {
+        const sorted = getSortedSurnames();
+        const maxPer100 = Math.max(1, ...surnames.map(s => s.per100Gen));
+        let html = '';
+        sorted.forEach((s, idx) => {
+            const rank = fixedRanks.get(s.nr) || 0;
+            const per100Mio = Math.round(s.per100Mio);
+            const generatedStr = formatNumber(s.generated);
+            const per100Gen = Math.round(s.per100Gen);
+            const per100GenStr = per100Gen > 0 ? formatNumber(per100Gen) : '0';
+            const barPct = totalGeneratedAll > 0 && maxPer100 > 0
+                ? (s.per100Gen / maxPer100) * 100
+                : 0;
+            const barHtml = barPct > 0
+                ? `<div class="per100gen-wrapper">
+                    <div class="per100gen-bar-track">
+                        <div class="per100gen-bar-fill" style="width:${barPct}%"></div>
+                    </div>
+                    <div class="per100gen-value">${per100GenStr}</div>
+                  </div>`
+                : `<div class="per100gen-wrapper"><div class="per100gen-value">0</div></div>`;
+            html += `<tr>
+                <td class="row-num">${idx + 1}</td>
+                <td class="rank">${rank}</td>
+                <td class="name-cell">${s.viet}</td>
+                <td class="chuhan-cell">${s.chuhan}</td>
+                <td class="pinyin-cell">${s.pinyin}</td>
+                <td class="num-cell">${formatNumber(s.anzahl)}</td>
+                <td class="num-cell">${formatNumber(per100Mio)}</td>
+                <td class="generated-cell">${generatedStr}</td>
+                <td class="per100gen-cell">${barHtml}</td>
+            </tr>`;
+        });
+        tableBody.innerHTML = html;
+        totalNamesCountSpan.textContent = `${sorted.length} Einträge`;
+    }
+
+    function updateAll() {
+        updateLiveStats();
+        renderTable();
+    }
+
+    function generateSingle() {
+        const idx = getRandomSurnameIndex();
+        surnames[idx].generated += 1;
+        totalGeneratedAll += 1;
+        updateAll();
+        updateLastResult(idx);
+    }
+
+    /* ============================================================
+       FIX: Schnellgenerator verwendet die exakte kumulative
+       Verteilung + Binärsuche (wie der Einzelgenerator).
+       Zusätzlich wird der letzte gezogene Index gespeichert
+       und angezeigt – nicht ein neuer Zufallswert.
+       ============================================================ */
+    function generateBulk(count) {
+        if (count <= 0) return;
+        let lastDrawnIdx = -1;
+        for (let i = 0; i < count; i++) {
+            lastDrawnIdx = getRandomSurnameIndex();
+            surnames[lastDrawnIdx].generated += 1;
+        }
+        totalGeneratedAll += count;
+        updateAll();
+        if (lastDrawnIdx >= 0) {
+            updateLastResult(lastDrawnIdx);
+        }
+    }
+
+    function initSorting() {
+        const headers = document.querySelectorAll('th[data-sort]');
+        headers.forEach(th => {
+            th.addEventListener('click', () => {
+                const key = th.getAttribute('data-sort');
+                if (currentSort.key === key) {
+                    currentSort.dir = currentSort.dir === 'asc' ? 'desc' : 'asc';
+                } else {
+                    currentSort.key = key;
+                    // Vietnamesisch, Chữ Hán, Pinyin und Rang standardmäßig aufsteigend
+                    currentSort.dir = (key === 'viet' || key === 'chuhan' ||
+                                       key === 'pinyin' || key === 'nr') ? 'asc' : 'desc';
+                }
+                headers.forEach(h => h.classList.remove('sort-active'));
+                th.classList.add('sort-active');
+                headers.forEach(h => {
+                    const arrow = h.querySelector('.sort-arrow');
+                    if (h === th) arrow.textContent = currentSort.dir === 'asc' ? '▲' : '▼';
+                    else arrow.textContent = '▼';
+                });
+                renderTable();
+            });
+        });
+        // Start-Sortierung: Rang (#) aufsteigend aktiv markieren
+        document.querySelector('th[data-sort="nr"]').classList.add('sort-active');
+    }
+
+    function initTopN() {
+        topNSlider.addEventListener('input', () => {
+            currentTopN = parseInt(topNSlider.value, 10);
+            topNInput.value = currentTopN;
+            updateTopN();
+        });
+        topNInput.addEventListener('input', () => {
+            let val = parseInt(topNInput.value, 10);
+            if (isNaN(val) || val < 1) val = 1;
+            if (val > 300) val = 300;
+            currentTopN = val;
+            topNSlider.value = val;
+            updateTopN();
+        });
+    }
+
+    function init() {
+        totalPersonsInfo.textContent = formatNumber(totalPopulation);
+        updateTopN();
+        updateLastResult(0);
+        initSorting();
+        initTopN();
+        updateAll();
+        updateLastResult(0);
+
+        generateSingleBtn.addEventListener('click', generateSingle);
+        generateBulkBtn.addEventListener('click', () => {
+            let count = parseInt(bulkCountInput.value, 10);
+            if (isNaN(count) || count < 1) count = 1;
+            bulkCountInput.value = count;
+            generateBulk(count);
+        });
+    }
+
+    init();
+</script>
+</body>
+</html>
