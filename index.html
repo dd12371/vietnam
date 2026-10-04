@@ -391,7 +391,7 @@
         <div class="gen-box">
             <h2><span>⚡</span> Schnellgenerator</h2>
             <div class="bulk-row">
-                <input type="number" id="bulkCount" class="input-neon" placeholder="z. B. 1000000" min="1" step="1">
+                <input type="number" id="bulkCount" class="input-neon" min="1" step="1">
                 <button class="btn" id="generateBulkBtn">🚀 Generieren</button>
             </div>
             <div class="hint">Keine Obergrenze · kumulative Verteilung + Binärsuche · exakte Wahrscheinlichkeiten</div>
@@ -482,7 +482,7 @@
             <input type="range" id="topNSlider" min="1" max="300" value="10" step="1">
             <input type="number" id="topNInput" min="1" max="300" value="10" step="1">
         </div>
-        <div class="topn-share" id="topNShare">77,20 %</div>
+        <div class="topn-share" id="topNShare">772,00 ‰</div>
     </div>
 
     <!-- TABELLE -->
@@ -1006,9 +1006,9 @@
         });
         const n = Math.min(currentTopN, sorted.length);
         const topNSum = sorted.slice(0, n).reduce((acc, s) => acc + s.anzahl, 0);
-        const share = (topNSum / totalPopulation) * 100;
+        const sharePromille = (topNSum / totalPopulation) * 1000;
         topNValue.textContent = n;
-        topNShare.textContent = share.toFixed(2) + ' %';
+        topNShare.textContent = sharePromille.toFixed(2).replace('.', ',') + ' ‰';
         topNShareSub.textContent = `Anteil der Top ${n} an Gesamtbevölkerung`;
     }
 
